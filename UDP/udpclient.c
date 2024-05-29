@@ -1,5 +1,3 @@
-/* Sample UDP client */
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -23,10 +21,10 @@ int main(int argc, char **argv)
 
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
-    memset(&servaddr, 0, sizeof(servaddr)); // Clear the servaddr structure
+    memset(&servaddr, 0, sizeof(servaddr)); 
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr(argv[1]); // Convert IP address from string to network format
-    servaddr.sin_port = htons(32000); // Set port number
+    servaddr.sin_addr.s_addr = inet_addr(argv[1]); 
+    servaddr.sin_port = htons(32000); 
 
     while (fgets(sendline, sizeof(sendline), stdin) != NULL)
     {
@@ -34,11 +32,11 @@ int main(int argc, char **argv)
                (struct sockaddr *)&servaddr, sizeof(servaddr));
 
         n = recvfrom(sockfd, recvline, sizeof(recvline), 0, NULL, NULL);
-        recvline[n] = '\0'; // Ensure null-terminated string
+        recvline[n] = '\0'; 
         fputs(recvline, stdout);
     }
 
-    close(sockfd); // Close the socket when done
+    close(sockfd); 
 
     return 0;
 }
