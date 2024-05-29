@@ -1,5 +1,3 @@
-/* Server port number is passed as an argument*/
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -16,9 +14,6 @@ main (int argc,char *argv[] )
   int listensocket, acceptsocket, cliLen, n,pid,j ;
   struct sockaddr_in cliAddr, servAddr;
   char msg[MAX_MSG];
-  /**********************************/	
-  /* Build server address structure */
-  /**********************************/	
   if(argc !=2)
     {
 	fprintf(stderr,"Usage: %s <Server port>\n",argv[0]);
@@ -30,30 +25,19 @@ main (int argc,char *argv[] )
   servAddr.sin_addr.s_addr = inet_addr(SERVER_ADDR);
   servAddr.sin_port = htons(atoi(argv[1]));
 
-  /**********************************
-	 Create stream socket 
-  **********************************/
   listensocket = socket(AF_INET, SOCK_STREAM, 0);
   printf("Successfully created stream socket \n");
 
-  /********************************** 
-	Bind local port number 
-  **********************************/
   bind(listensocket, (struct sockaddr *) &servAddr, sizeof(servAddr));
   printf("Bound local port successfully\n");
 
-  /********************************************************** 
-	Specify number of concurrent Clients to listen for        
-  ***********************************************************/
   listen(listensocket,5);
   while(1)
   {
     printf("waiting for client connection on port TCP %u\n",atoi(argv[1]));
     
-    /* Wait for client connection*/
     acceptsocket= accept(listensocket, (struct sockaddr *) &cliAddr, &cliLen);
     printf("received connection from host [IP %s ,TCP port %d]\n",inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
-     /*Creating a child*/
     pid=fork();
                    
      if(pid>0)      
@@ -88,7 +72,6 @@ main (int argc,char *argv[] )
        send(acceptsocket, msg, strlen(msg) + 1, 0);
        if(strcmp(msg,"quit")==0) 
        {
-       	/* close client connection*/
     	printf("closing connection with host [IP %s ,TCP port %d]\n",inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
     	break;
        }
