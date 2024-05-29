@@ -1,9 +1,7 @@
-/* Sample UDP server */
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
-#include <string.h>  // Include string.h for memset()
+#include <string.h>  
 
 int main(int argc, char**argv)
 {
@@ -14,7 +12,7 @@ int main(int argc, char**argv)
 
    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
-   memset(&servaddr, 0, sizeof(servaddr)); // Zero out servaddr structure
+   memset(&servaddr, 0, sizeof(servaddr)); 
    servaddr.sin_family = AF_INET;
    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
    servaddr.sin_port = htons(32000);
@@ -31,6 +29,6 @@ int main(int argc, char**argv)
       printf("-------------------------------------------------------\n");
    }
 
-   return 0; // Add return statement to end main() function
+   return 0; 
 }
 
